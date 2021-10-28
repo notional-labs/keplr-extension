@@ -37,3 +37,20 @@ export class PrivKeySecp256k1 {
     );
   }
 }
+
+export class PubKeySecp256k1 {
+  constructor(protected readonly pubKey: Uint8Array) {}
+
+  toBytes(): Uint8Array {
+    return new Uint8Array(this.pubKey);
+  }
+
+  getAddress(): Uint8Array {
+    let hash = CryptoJS.SHA256(
+      CryptoJS.lib.WordArray.create(this.pubKey as any)
+    ).toString();
+    hash = CryptoJS.RIPEMD160(CryptoJS.enc.Hex.parse(hash)).toString();
+
+    return new Uint8Array(Buffer.from(hash, "hex"));
+  }
+}
