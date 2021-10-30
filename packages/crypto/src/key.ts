@@ -1,7 +1,7 @@
 import EC from "elliptic";
 import CryptoJS from "crypto-js";
 import Wallet from 'ethereumjs-wallet';
-import { Buffer } from "buffer/";
+// import { Buffer } from "buffer/";
 
 
 export class PrivKeySecp256k1 {
