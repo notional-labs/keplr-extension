@@ -1,6 +1,6 @@
 import EC from "elliptic";
 import CryptoJS from "crypto-js";
-import Wallet from 'ethereumjs-wallet';
+import etherJS from 'ethereumjs-util';
 // import { Buffer } from "buffer/";
 
 
@@ -64,10 +64,13 @@ export class PrivKeyEthSecp256k1 {
   }
 
   getPubKey(): PubKeyEthSecp256k1 {
-    //@ts-ignore
-    const wallet = Wallet.fromPrivateKey(new Buffer(this.privKey));
+    const secp256k1 = new EC.ec("secp256k1");
 
-    return new PubKeyEthSecp256k1(wallet);
+    const key = secp256k1.keyFromPrivate(this.privKey);
+
+    return new PubKeyEthSecp256k1(
+      new Uint8Array(key.getPublic().encodeCompressed("array"))
+    );
   }
 
   sign(msg: Uint8Array): Uint8Array {
@@ -91,19 +94,13 @@ export class PrivKeyEthSecp256k1 {
 }
 
 export class PubKeyEthSecp256k1 {
-  constructor(protected readonly wallet: Wallet) {}
+  constructor(protected readonly pubKey: Uint8Array) {}
 
   toBytes(): Uint8Array {
-    return new Uint8Array(this.wallet.getPublicKey())
-  }
-
-  getAddressString(): string {
-    return this.wallet.getAddressString();
+    return new Uint8Array(this.pubKey);
   }
 
   getAddress(): Uint8Array {
-    return new Uint8Array(this.wallet.getAddress())
+    return etherJS.pubToAddress(Buffer.from(this.pubKey), true)
   }
-
-
 }

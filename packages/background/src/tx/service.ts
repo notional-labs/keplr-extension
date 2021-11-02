@@ -172,6 +172,7 @@ export class BackgroundTxService {
             const sdkErr: CosmosSdkError = JSON.parse(abciMessageLog.log);
             if (sdkErr?.message) {
               message = sdkErr.message;
+
               break;
             }
           }

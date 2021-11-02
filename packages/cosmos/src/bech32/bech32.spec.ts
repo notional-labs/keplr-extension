@@ -13,8 +13,9 @@ describe("Test eth derivation", () => {
         const privateKeyEth = new PrivKeyEthSecp256k1(util.toBuffer(util.addHexPrefix(PRIV_KEY)))
         const pubKey = privateKeyEth.getPubKey()
         const addressBuffer = pubKey.getAddress();
-        const publicAddress = pubKey.getAddressString();
-        console.log(addressBuffer)
-        assert.strictEqual(publicAddress, ETH_ADDRESS_FROM_PRIV);
+        const addressHexStr = "0x" + Buffer.from(addressBuffer).toString('hex');
+        console.log(addressHexStr)
+        assert.strictEqual(addressHexStr, ETH_ADDRESS_FROM_PRIV);
     });
 });
+

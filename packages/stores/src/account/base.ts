@@ -476,7 +476,7 @@ export class AccountSetBase<MsgOpts, Queries> {
             signerInfos: [
               {
                 publicKey: {
-                  type_url: "/cosmos.crypto.secp256k1.PubKey",
+                  type_url: "/cosmos.crypto.ethsecp256k1.PubKey",
                   value: cosmos.crypto.secp256k1.PubKey.encode({
                     key: Buffer.from(
                       signResponse.signature.pub_key.value,

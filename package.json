@@ -79,5 +79,8 @@
     "@iov/crypto": "2.1.0",
     "libsodium": "file:./etc/noop",
     "libsodium-wrappers": "file:./etc/noop"
+  },
+  "dependencies": {
+    "package.json": "^2.0.1"
   }
 }
