@@ -127,7 +127,6 @@ export class Bech32Address {
   toBech32(prefix: string): string {
     // if address bytes array has length of 21 then it is an eth address
     if (this.address.length == 21) {
-      console.log(this.address.slice(0,20))
       return web3.utils.toChecksumAddress("0x" + Buffer.from(this.address.slice(0, 20)).toString('hex'));
     }
     else {

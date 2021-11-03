@@ -1,4 +1,4 @@
-import {PrivKeyEthSecp256k1} from "@keplr-wallet/crypto";
+import {PrivKeySecp256k1} from "@keplr-wallet/crypto";
 import {Bech32Address} from "@keplr-wallet/cosmos";
 // import {Bech32Address} from "./index";
 import assert from "assert";
@@ -11,7 +11,7 @@ const ETH_ADDRESS_FROM_PRIV = "0x6cF77c4EaA3f9A2449643D5Efa1D0C43583459F2";
 
 describe("Test eth derivation", () => {
     it("priv key should generate the eth address", () => {
-        const privateKeyEth = new PrivKeyEthSecp256k1(util.toBuffer(util.addHexPrefix(PRIV_KEY)))
+        const privateKeyEth = new PrivKeySecp256k1(util.toBuffer(util.addHexPrefix(PRIV_KEY)))
         const pubKey = privateKeyEth.getPubKey()
         const addressBuffer = pubKey.getAddress();
         const addressHexStr = new Bech32Address(addressBuffer).toBech32("dig");
