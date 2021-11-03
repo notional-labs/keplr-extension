@@ -66,11 +66,9 @@ export class Bech32Address {
   }
 
   static fromBech32(bech32Address: string, prefix?: string): Bech32Address {
+    this.validate(bech32Address, prefix)
     if (bech32Address.slice(0,2) != "0x") {
       const decoded = bech32.decode(bech32Address);
-      if (prefix && decoded.prefix !== prefix) {
-        throw new Error("Unmatched prefix");
-      }
       return new Bech32Address(new Uint8Array(decoded.words));
     }
     else {
@@ -126,10 +124,11 @@ export class Bech32Address {
 
   constructor(public readonly address: Uint8Array) {}
 
-  toBech32(prefix: string, eth=false): string {
+  toBech32(prefix: string): string {
     // if address bytes array has length of 21 then it is an eth address
-    if (eth) {
-      return "0x" + Buffer.from(this.address.slice(this.address.length-20)).toString('hex');
+    if (this.address.length == 21) {
+      console.log(this.address.slice(0,20))
+      return web3.utils.toChecksumAddress("0x" + Buffer.from(this.address.slice(0, 20)).toString('hex'));
     }
     else {
       const words = bech32.toWords(this.address);

@@ -1,20 +1,23 @@
+import {PrivKeyEthSecp256k1} from "@keplr-wallet/crypto";
+import {Bech32Address} from "@keplr-wallet/cosmos";
+// import {Bech32Address} from "./index";
 import assert from "assert";
-import { Mnemonic } from "./mnemonic";
-import { PrivKeySecp256k1 } from "./key";
-import { Bech32Address } from "@keplr-wallet/cosmos";
+//import EC from "elliptic";
+import * as util from 'ethereumjs-util';
+//import Wallet from 'ethereumjs-wallet';
+//const MNEUMONIC = "celery husband drama unaware blue empower jelly twist program say prepare page"
+const PRIV_KEY = "0b0df1b5ee8e70227e26a1b954f1c20ab4c043f7b045421bf12baa043429ede6"
+const ETH_ADDRESS_FROM_PRIV = "0x6cF77c4EaA3f9A2449643D5Efa1D0C43583459F2";
 
-describe("Test priv key", () => {
-  it("priv key should generate the valid address", () => {
-    const mnemonic =
-      "celery husband drama unaware blue empower jelly twist program say prepare page";
-    const expectedAddress = "cosmos1d2kh2xaen7c0zv3h7qnmghhwhsmmassqlmr2nv";
 
-    const privKey = new PrivKeySecp256k1(
-      Mnemonic.generateWalletFromMnemonic(mnemonic)
-    );
-    const pubKey = privKey.getPubKey();
-    const address = new Bech32Address(pubKey.getAddress());
-
-    assert.strictEqual(address.toBech32("cosmos"), expectedAddress);
-  });
+describe("Test eth derivation", () => {
+    it("pub key should generate the eth address", () => {
+        const privateKeyEth = new PrivKeyEthSecp256k1(util.toBuffer(util.addHexPrefix(PRIV_KEY)))
+        const pubKey = privateKeyEth.getPubKey()
+        const addressUint8Array = pubKey.getAddress();
+        const bech32Address = new Bech32Address(addressUint8Array);
+        const addressHexStr = bech32Address.toBech32("dig");
+        console.log(addressHexStr)
+        assert.strictEqual(addressHexStr, ETH_ADDRESS_FROM_PRIV);
+    });
 });

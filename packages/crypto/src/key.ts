@@ -1,6 +1,8 @@
 import EC from "elliptic";
 import CryptoJS from "crypto-js";
-import etherJS from 'ethereumjs-util';
+import { keccak } from 'ethereumjs-util';
+import { publicKeyConvert } from 'secp256k1';
+import assert from "assert";
 // import { Buffer } from "buffer/";
 
 
@@ -101,6 +103,12 @@ export class PubKeyEthSecp256k1 {
   }
 
   getAddress(): Uint8Array {
-    return etherJS.pubToAddress(Buffer.from(this.pubKey), true)
+    let pubKeyBuffer = Buffer.from(publicKeyConvert(this.pubKey, false).slice(1)) 
+    
+    assert(pubKeyBuffer.length === 64)
+    // Only take the lower 168bits of the hash, the last 8 bits (1 byte) indicate that this is an eth address
+    let address = new Uint8Array(21) 
+    address.set(keccak(pubKeyBuffer).slice(-20), 0)
+    return address
   }
 }
