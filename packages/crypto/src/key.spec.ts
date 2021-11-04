@@ -1,4 +1,4 @@
-import {PrivKeySecp256k1} from "@keplr-wallet/crypto";
+import {PrivKeySecp256k1} from "./key";
 import {Bech32Address} from "@keplr-wallet/cosmos";
 // import {Bech32Address} from "./index";
 import assert from "assert";
