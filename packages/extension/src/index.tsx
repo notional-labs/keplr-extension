@@ -59,7 +59,6 @@ import { ExportToMobilePage } from "./pages/setting/export-to-mobile";
 
 window.keplr = new Keplr(
   manifest.version,
-  "core",
   new InExtensionMessageRequester()
 );
 

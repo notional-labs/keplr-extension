@@ -3,7 +3,7 @@ import { init } from "./init";
 
 import manifest from "../../manifest.json";
 
-const keplr = new InjectedKeplr(manifest.version, "extension");
+const keplr = new InjectedKeplr(manifest.version);
 
 init(
   keplr,
