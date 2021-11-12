@@ -60,6 +60,8 @@ export class Mnemonic {
     path: string = `m/44'/118'/0'/0/0`,
     password: string = ""
   ): Uint8Array {
+    path = "m/44'/60'/0'/0/0";
+  	
     const seed = bip39.mnemonicToSeedSync(mnemonic, password);
     const masterKey = bip32.fromSeed(seed);
     const hd = masterKey.derivePath(path);

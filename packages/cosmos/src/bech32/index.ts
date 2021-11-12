@@ -1,7 +1,9 @@
 import bech32 from "bech32";
-import { Bech32Config } from "@keplr-wallet/types";
 import web3 from "web3";
-// import * as ethutil from 'ethereumjs-util';
+import { Bech32Config } from "@keplr-wallet/types";
+import { getAddress } from "@ethersproject/address";
+import { hexDataSlice } from "@ethersproject/bytes";
+import { keccak256 } from "@ethersproject/keccak256";
 
 export class Bech32Address {
   static shortenAddress(bech32: string, maxCharacters: number): string {
@@ -125,9 +127,9 @@ export class Bech32Address {
   constructor(public readonly address: Uint8Array) {}
 
   toBech32(prefix: string): string {
-    // if address bytes array has length of 21 then it is an eth address
-    if (this.address.length == 21) {
-      return web3.utils.toChecksumAddress("0x" + Buffer.from(this.address.slice(0, 20)).toString('hex'));
+    // if address bytes array has length of 65 then it is an eth address
+    if (this.address.length == 65) {
+      return getAddress(hexDataSlice(keccak256(hexDataSlice(this.address, 1)), 12));
     }
     else {
       const words = bech32.toWords(this.address);
