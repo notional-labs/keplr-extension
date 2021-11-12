@@ -127,7 +127,7 @@ export class Bech32Address {
   constructor(public readonly address: Uint8Array) {}
 
   toBech32(prefix: string): string {
-    // if address bytes array has length of 32 then it is an eth address
+    // if address bytes array has length of 65 then it is an eth address
     if (this.address.length == 65) {
       return getAddress(hexDataSlice(keccak256(hexDataSlice(this.address, 1)), 12));
     }
